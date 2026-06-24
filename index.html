@@ -99,8 +99,8 @@ html,body{height:100%;background:var(--bg);color:var(--tx);font-family:"Inter",s
 .cat-section{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r2);margin-bottom:14px;overflow:hidden}
 .cat-hd{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--bd);background:var(--s2)}
 .cat-hd-title{flex:1;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px}.cat-total{font-family:var(--ff-bc);font-size:17px;font-weight:800;color:var(--gold)}
-.li-row{display:grid;grid-template-columns:minmax(0,2fr) 70px 70px 80px 80px 28px;align-items:center;gap:6px;padding:8px 14px;border-bottom:1px solid var(--bd);font-size:12px}
-.li-row:last-child{border-bottom:0}.li-row.sub-ext{grid-template-columns:minmax(0,2fr) 70px 70px 80px 80px 80px 28px}
+.li-row{display:grid;grid-template-columns:minmax(0,2fr) 70px 70px 80px 80px 72px 28px;align-items:center;gap:6px;padding:8px 14px;border-bottom:1px solid var(--bd);font-size:12px}
+.li-row:last-child{border-bottom:0}.li-row.sub-ext{grid-template-columns:minmax(0,2fr) 70px 70px 80px 80px 80px 72px 28px}
 .li-hdr{background:var(--s2);padding:7px 14px}.li-hdr span{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--tx4)}
 .li-input{background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:5px 8px;font-size:12px;font-family:"Inter",sans-serif;color:var(--tx);outline:none;width:100%;transition:border-color .15s;min-width:0}.li-input:focus{border-color:var(--gold)}
 .li-del{width:26px;height:26px;background:transparent;border:none;color:var(--tx4);cursor:pointer;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:all .15s;font-size:13px;flex-shrink:0}.li-del:hover{background:var(--red-bg);color:var(--red)}
@@ -113,6 +113,23 @@ html,body{height:100%;background:var(--bg);color:var(--tx);font-family:"Inter",s
 .misc-section{background:var(--s1);border:1px solid rgba(255,214,10,.12);border-radius:var(--r2);margin-top:14px;overflow:hidden}
 .misc-hd{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid rgba(255,214,10,.1);background:rgba(255,214,10,.04)}
 .grand-bar{background:linear-gradient(135deg,rgba(48,209,88,.07),rgba(201,168,76,.05));border:1px solid rgba(48,209,88,.18);border-radius:var(--r2);padding:18px 22px;margin-top:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.phase-section{background:var(--s1);border:1px solid rgba(10,132,255,.18);border-radius:var(--r2);margin-top:14px;overflow:hidden}
+.phase-hd{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid rgba(10,132,255,.1);background:rgba(10,132,255,.04)}
+.phase-row{display:grid;grid-template-columns:32px minmax(0,2fr) 110px 110px 60px 80px;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--bd);font-size:13px;transition:background .15s}
+.phase-row:last-child{border-bottom:0}
+.phase-row.inactive{opacity:.38}
+.phase-toggle{width:30px;height:18px;border-radius:999px;border:none;cursor:pointer;position:relative;flex-shrink:0;transition:background .2s}
+.phase-toggle.on{background:var(--blue)}
+.phase-toggle.off{background:var(--s5)}
+.phase-toggle::after{content:'';position:absolute;top:3px;width:12px;height:12px;border-radius:50%;background:#fff;transition:left .2s}
+.phase-toggle.on::after{left:15px}
+.phase-toggle.off::after{left:3px}
+.phase-pct-bar{height:4px;border-radius:2px;background:rgba(10,132,255,.18);overflow:hidden;margin-top:3px}
+.phase-pct-fill{height:100%;border-radius:2px;background:var(--blue);transition:width .3s}
+.li-phase-tag{font-size:10px;padding:2px 7px;border-radius:999px;background:rgba(10,132,255,.12);color:var(--blue);border:1px solid rgba(10,132,255,.2);white-space:nowrap;cursor:pointer;font-weight:600;transition:all .15s;font-family:'Inter',sans-serif}
+.li-phase-tag:hover{background:rgba(10,132,255,.22)}
+.li-phase-tag.unassigned{background:var(--s3);color:var(--tx4);border-color:var(--bd)}
+
 .sow-tab-bar{display:flex;gap:0;margin-bottom:10px;background:var(--s2);border-radius:10px;padding:3px;border:1px solid var(--bd)}
 .sow-tab{flex:1;text-align:center;padding:7px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;color:var(--tx3);transition:all .15s}.sow-tab.on{background:var(--s4);color:var(--tx)}
 .doc-zone{border:2px dashed var(--bd2);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all .15s;color:var(--tx3)}.doc-zone:hover,.doc-zone.drag{border-color:var(--gold);color:var(--gold);background:var(--gold-bg)}
@@ -328,6 +345,22 @@ html,body{height:100%;background:var(--bg);color:var(--tx);font-family:"Inter",s
     <div class="mfoot"><button class="btn btn-ghost" onclick="closeModal('ovFactor')">Cancel</button><button class="btn btn-gold" onclick="saveFactor()">Add Factor</button></div>
   </div>
 </div>
+<!-- Assign Phase Modal -->
+<div class="ov" id="ovPhase">
+  <div class="modal">
+    <div class="mhd"><h3>🏷️ Assign Phase</h3><button class="mcls" onclick="closeModal('ovPhase')">✕</button></div>
+    <div class="mbody">
+      <p style="font-size:12px;color:var(--tx3);margin-bottom:12px">Assign this line item to a phase:</p>
+      <div id="phasePickList"></div>
+      <div style="margin-top:12px;border-top:1px solid var(--bd);padding-top:12px">
+        <div class="f"><label>Or create new phase</label><input id="newPhaseName" placeholder="e.g. Master Bath, Built-in, Countertop…"></div>
+        <button class="btn btn-gold btn-sm" onclick="createPhaseFromModal()">+ Create & Assign</button>
+      </div>
+    </div>
+    <div class="mfoot"><button class="btn btn-ghost" onclick="closeModal('ovPhase')">Cancel</button></div>
+  </div>
+</div>
+
 
 <!-- Add User -->
 <div class="ov" id="ovAddUser">
@@ -393,6 +426,7 @@ import{getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged,createUserW
 const FB={apiKey:"AIzaSyDJ4okYFrXQdvl7ofCUJWJYqsNQxk7exBA",authDomain:"formo-project-manager.firebaseapp.com",projectId:"formo-project-manager",storageBucket:"formo-project-manager.firebasestorage.app",appId:"1:163966850393:web:7066d031711cc68c112848"};
 const app=initializeApp(FB),db=getFirestore(app),auth=getAuth(app);
 let CU=null,CUD=null,PROJS=[],PRICES=[],SUBS=[],USERS=[],EST=null,AI_DATA=null,PS=[],SOW_FILE=null,AS_TIMER=null;
+let PHASE_PENDING={ci:null,li:null}; // for phase assignment modal
 const $=id=>document.getElementById(id);
 const fmt=n=>'$'+(+n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -499,7 +533,7 @@ window.clearSOWDoc=()=>{SOW_FILE=null;$('dropZone').style.display='';$('sowDocRo
 window.createProject=async()=>{
   const name=$('np_name').value.trim();if(!name){toast('Project name required','err');return;}
   const sow=$('np_sow').value.trim();
-  const data={name,status:$('np_status').value,address:$('np_address').value.trim(),client:$('np_client').value.trim(),phone:$('np_phone').value.trim(),email:$('np_email').value.trim(),type:$('np_type').value,estimatedDays:parseInt($('np_days').value)||null,sow,sowFileName:SOW_FILE?.name||'',categories:[],adjustments:[],profitRows:[],miscItems:[],photos:[],notes:'',createdAt:serverTimestamp(),updatedAt:serverTimestamp(),createdBy:CU.uid};
+  const data={name,status:$('np_status').value,address:$('np_address').value.trim(),client:$('np_client').value.trim(),phone:$('np_phone').value.trim(),email:$('np_email').value.trim(),type:$('np_type').value,estimatedDays:parseInt($('np_days').value)||null,sow,sowFileName:SOW_FILE?.name||'',categories:[],adjustments:[],profitRows:[],miscItems:[],photos:[],phases:[],notes:'',createdAt:serverTimestamp(),updatedAt:serverTimestamp(),createdBy:CU.uid};
   const ref=await addDoc(collection(db,'sow_estimates'),data);
   closeModal('ovNewProj');toast('Project created');
   openEst(ref.id);
@@ -515,7 +549,7 @@ function openEst(id){
 
 function renderEst(){
   const p=EST;if(!p){$('estContent').innerHTML='';return;}
-  const cats=p.categories||[],adjs=p.adjustments||[],profRows=p.profitRows||[],miscItems=p.miscItems||[],photos=p.photos||[];
+  const cats=p.categories||[],adjs=p.adjustments||[],profRows=p.profitRows||[],miscItems=p.miscItems||[],photos=p.photos||[],phases=p.phases||[];
   const COST=costTotal(cats,adjs),PROF=profitTotal(cats,profRows),MISC=miscTotal(miscItems),GRAND=COST+PROF+MISC;
   const labT=cats.filter(c=>c.cat==='Labor').reduce((s,c)=>s+catTot(c.lines),0);
   const matT=cats.filter(c=>c.cat==='Materials').reduce((s,c)=>s+catTot(c.lines),0);
@@ -536,6 +570,7 @@ function renderEst(){
         <input class="li-input" type="number" placeholder="$/unit" value="${ln.unitPrice||''}" data-ci="${ci}" data-li="${li}" data-f="unitPrice" oninput="onLI(this)" style="text-align:right">
         <div style="font-family:var(--ff-bc);font-size:14px;font-weight:700;text-align:right;padding-right:2px;white-space:nowrap" id="lt-${ci}-${li}">${fmt(lt)}</div>
         ${isSub?`<select class="li-input hide-sm" data-ci="${ci}" data-li="${li}" data-f="subIncludes" onchange="onLI(this)" style="font-size:11px"><option value="">Includes…</option><option ${ln.subIncludes==='materials'?'selected':''} value="materials">+Materials</option><option ${ln.subIncludes==='all'?'selected':''} value="all">All-in</option></select>`:''}
+        <button class="li-phase-tag ${getPhaseTag(ln,phases)}" data-ci="${ci}" data-li="${li}" data-act="pt" title="Assign phase">${getPhaseLabel(ln,phases)}</button>
         <button class="li-del" data-ci="${ci}" data-li="${li}" data-act="dl">✕</button>
       </div>`;
     }).join('');
@@ -547,7 +582,7 @@ function renderEst(){
         <button class="btn btn-xs btn-ghost" data-ci="${ci}" data-act="al" style="margin-left:6px">+ Line</button>
         <button class="btn btn-xs btn-danger" data-ci="${ci}" data-act="dc">✕ Cat</button>
       </div>
-      <div class="li-hdr li-row${isSub?' sub-ext':''}"><span>Description</span><span class="hide-sm">Unit</span><span style="text-align:right">Qty</span><span style="text-align:right">$/Unit</span><span style="text-align:right">Total</span>${isSub?'<span class="hide-sm">Includes</span>':''}<span></span></div>
+      <div class="li-hdr li-row${isSub?' sub-ext':''}"><span>Description</span><span class="hide-sm">Unit</span><span style="text-align:right">Qty</span><span style="text-align:right">$/Unit</span><span style="text-align:right">Total</span>${isSub?'<span class="hide-sm">Includes</span>':''}<span style="font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:rgba(10,132,255,.5)">Phase</span><span></span></div>
       ${lines}
     </div>`;
   }).join('');
@@ -687,6 +722,8 @@ function renderEst(){
       </div>
     </div>
 
+    ${renderPhasesPanel(cats,adjs,profRows,phases,GRAND)}
+
     <div class="card" style="margin-top:14px">
       <div class="card-hd"><h3>📸 Photos & Reference Images</h3><button class="btn btn-xs btn-ghost" onclick="document.getElementById('photoIn').click()">+ Add Photos</button></div>
       <div style="padding:14px 16px"><div class="photo-grid" id="photoGrid">${photosHTML}</div></div>
@@ -704,6 +741,7 @@ function renderEst(){
     if(b.dataset.act==='al')addLine(ci);
     if(b.dataset.act==='dl')delLine(ci,li);
     if(b.dataset.act==='dc')delCat(ci);
+    if(b.dataset.act==='pt')openPhaseModal(ci,li);
   });
   $('adjWrap').addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b?.dataset.act==='da')delAdj(parseInt(b.dataset.ai));});
   $('profWrap').addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b?.dataset.act==='dp')delProfRow(parseInt(b.dataset.ri));});
@@ -813,8 +851,9 @@ Analyze this Scope of Work and extract all line items into a structured cost bre
 ${sow?'SCOPE OF WORK:\n'+sow:'(SOW provided as document attachment)'}
 PRICE LIBRARY (use these when applicable):\n${pLib||'Empty.'}
 Return ONLY valid JSON, no markdown:
-{"summary":"brief overview","estimatedDays":5,"categories":[{"cat":"Labor","lines":[{"desc":"Exterior spray paint","unit":"sqft","qty":3000,"unitPrice":1.50,"notes":""}]}],"adjustmentSuggestions":[{"name":"Height Premium","type":"pct","value":15,"apply":"labor","notes":""}],"profitSuggestions":[{"cat":"Labor","pct":100},{"cat":"Subcontractor","pct":30}],"miscSuggestions":[{"desc":"Fuel runs","amount":150}]}
-Categories: Labor,Materials,Supplies,Debris/Dumpster,Subcontractor. Be thorough.`;
+{"summary":"brief overview","estimatedDays":5,"phases":[{"id":"ph1","name":"Master Bath"},{"id":"ph2","name":"Built-in Millwork"}],"categories":[{"cat":"Labor","lines":[{"desc":"Exterior spray paint","unit":"sqft","qty":3000,"unitPrice":1.50,"notes":"","phaseId":"ph1"}]}],"adjustmentSuggestions":[{"name":"Height Premium","type":"pct","value":15,"apply":"labor","notes":""}],"profitSuggestions":[{"cat":"Labor","pct":100},{"cat":"Subcontractor","pct":30}],"miscSuggestions":[{"desc":"Fuel runs","amount":150}]}
+Categories: Labor,Materials,Supplies,Debris/Dumpster,Subcontractor. Be thorough.
+IMPORTANT: Extract phases from section headers/titles in the SOW (e.g. "Master Bath Paint", "Built-in Millwork", "Countertop Install"). Create a phases array with unique ids and names. Assign each line item a phaseId matching its phase. If no clear phases, create one phase per major scope area.`;
   try{
     const body={model:'claude-sonnet-4-6',max_tokens:8000};
     if(fileData?.type==='pdf'){body.messages=[{role:'user',content:[{type:'document',source:{type:'base64',media_type:fileData.mime,data:fileData.data}},{type:'text',text:prompt}]}];}
@@ -839,6 +878,7 @@ window.applyAI=()=>{
   if(parsed.profitSuggestions?.length)EST.profitRows=parsed.profitSuggestions;
   if(parsed.miscSuggestions?.length)EST.miscItems=parsed.miscSuggestions;
   if(parsed.estimatedDays)EST.estimatedDays=parsed.estimatedDays;
+  if(parsed.phases?.length)EST.phases=parsed.phases.map(ph=>({...ph,active:true}));
   closeModal('ovAI');schedAS();renderEst();toast('SOW applied ✓');
 };
 
@@ -891,6 +931,164 @@ window.saveApiKey=()=>{const k=$('apiKeyInput').value.trim();if(!k){toast('Enter
 window.showUserMenu=()=>{const m=$('userMenu'),c=$('userChipBtn'),r=c.getBoundingClientRect();m.style.top=(r.bottom+6)+'px';m.style.right=(window.innerWidth-r.right)+'px';m.style.display=m.style.display==='none'?'block':'none';};
 document.addEventListener('click',e=>{if(!e.target.closest('#userMenu')&&!e.target.closest('#userChipBtn'))$('userMenu').style.display='none';});
 
+// PHASE HELPERS
+function getPhaseTag(ln,phases){const ph=phases.find(p=>p.id===ln.phaseId);return ph?'':'unassigned';}
+function getPhaseLabel(ln,phases){const ph=phases.find(p=>p.id===ln.phaseId);return ph?ph.name:'+ Phase';}
+
+function renderPhasesPanel(cats,adjs,profRows,phases,GRAND){
+  if(!phases||!phases.length)return`<div style="margin-top:14px;text-align:center;padding:14px;font-size:12px;color:var(--tx4)">Run AI or manually assign phases to see the Phase Breakdown</div>`;
+  const profitRate=calcProfitRate(cats,profRows);
+  let rows=phases.map(ph=>{
+    // lines in this phase
+    let pCost=0,pLines=0;
+    cats.forEach(cat=>{(cat.lines||[]).forEach(ln=>{if(ln.phaseId===ph.id){pCost+=(+(ln.qty||0))*(+(ln.unitPrice||0));pLines++;}});});
+    // apply adjustment proportionally
+    const totalBase=cats.reduce((s,c)=>s+catTot(c.lines),0);
+    const adjTotal=costTotal(cats,adjs)-totalBase;
+    const pAdj=totalBase>0?adjTotal*(pCost/totalBase):0;
+    const pCostAdj=pCost+pAdj;
+    const pProfit=pCostAdj*profitRate;
+    const pTotal=pCostAdj+pProfit;
+    const pct=GRAND>0?((pTotal/GRAND)*100):0;
+    const active=ph.active!==false;
+    return{ph,pCost:pCostAdj,pProfit,pTotal,pct,pLines,active};
+  });
+
+  const activeRows=rows.filter(r=>r.active);
+  const activeCost=activeRows.reduce((s,r)=>s+r.pCost,0);
+  const activeProfit=activeRows.reduce((s,r)=>s+r.pProfit,0);
+  const activeTotal=activeCost+activeProfit;
+
+  let html=`<div class="phase-section">
+    <div class="phase-hd">
+      <span style="font-size:16px">🏗️</span>
+      <span style="flex:1;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--blue)">Phase Breakdown</span>
+      <span style="font-size:11px;color:var(--tx3);margin-right:10px">${rows.filter(r=>r.active).length}/${rows.length} active</span>
+      <button class="btn btn-xs btn-ghost" onclick="addPhaseManual()" style="border-color:rgba(10,132,255,.3);color:var(--blue)">+ Add Phase</button>
+    </div>
+    <div style="display:grid;grid-template-columns:32px minmax(0,2fr) 110px 110px 60px 80px;gap:8px;padding:8px 16px;background:rgba(10,132,255,.04);border-bottom:1px solid rgba(10,132,255,.1)">
+      <span></span>
+      <span style="font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:rgba(10,132,255,.5)">Phase</span>
+      <span style="font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:rgba(10,132,255,.5);text-align:right">Cost</span>
+      <span style="font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:rgba(10,132,255,.5);text-align:right">Total w/Profit</span>
+      <span style="font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:rgba(10,132,255,.5);text-align:right">% of Job</span>
+      <span style="font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:rgba(10,132,255,.5)">Actions</span>
+    </div>`;
+
+  rows.forEach(r=>{
+    const barW=Math.round(r.pct);
+    html+=`<div class="phase-row${r.active?'':' inactive'}">
+      <button class="phase-toggle ${r.active?'on':'off'}" onclick="togglePhase('${r.ph.id}')" title="${r.active?'Deactivate':'Activate'} phase"></button>
+      <div style="min-width:0">
+        <div style="font-weight:600;font-size:13px;${r.active?'':'color:var(--tx3)'}overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.ph.name)}</div>
+        <div style="font-size:10px;color:var(--tx4)">${r.pLines} line item${r.pLines!==1?'s':''}</div>
+        <div class="phase-pct-bar"><div class="phase-pct-fill" style="width:${barW}%;opacity:${r.active?1:.3}"></div></div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-family:var(--ff-bc);font-size:15px;font-weight:700;${r.active?'color:var(--gold)':'color:var(--tx3)'}">${fmt(r.pCost)}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-family:var(--ff-bc);font-size:15px;font-weight:700;${r.active?'color:var(--green)':'color:var(--tx3)'}">${fmt(r.pTotal)}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:13px;font-weight:700;${r.active?'color:var(--blue)':'color:var(--tx3)'}">${r.pct.toFixed(1)}%</div>
+      </div>
+      <div style="display:flex;gap:4px">
+        <button class="btn btn-xs btn-ghost" data-phid="${r.ph.id}" onclick="editPhaseName(this)" style="font-size:10px;border-color:rgba(10,132,255,.2);color:var(--blue)">✏️</button>
+        <button class="btn btn-xs btn-danger" data-phid="${r.ph.id}" onclick="deletePhase(this)" style="font-size:10px">✕</button>
+      </div>
+    </div>`;
+  });
+
+  html+=`<div style="background:rgba(10,132,255,.06);border-top:1px solid rgba(10,132,255,.15);padding:12px 16px;display:grid;grid-template-columns:32px minmax(0,2fr) 110px 110px 60px 80px;gap:8px;align-items:center">
+    <span></span>
+    <div style="font-size:11px;font-weight:700;color:var(--blue)">${activeRows.length===rows.length?'ALL PHASES ACTIVE':activeRows.length+' OF '+rows.length+' PHASES ACTIVE'}</div>
+    <div style="text-align:right;font-family:var(--ff-bc);font-size:16px;font-weight:800;color:var(--gold)">${fmt(activeCost)}</div>
+    <div style="text-align:right;font-family:var(--ff-bc);font-size:16px;font-weight:800;color:var(--green)">${fmt(activeTotal)}</div>
+    <div style="text-align:right;font-size:12px;font-weight:700;color:var(--blue)">${GRAND>0?((activeTotal/GRAND)*100).toFixed(1)+'%':'—'}</div>
+    <span></span>
+  </div>`;
+
+  if(rows.some(r=>!r.active)){
+    const saved=GRAND-activeTotal;
+    html+=`<div style="background:rgba(255,69,58,.05);border-top:1px solid rgba(255,69,58,.15);padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <span style="font-size:11px;color:var(--red);font-weight:600">⚠ Inactive phases reduce total by</span>
+      <span style="font-family:var(--ff-bc);font-size:18px;font-weight:800;color:var(--red)">${fmt(saved)}</span>
+      <span style="font-size:11px;color:var(--tx3)">(${GRAND>0?((saved/GRAND)*100).toFixed(1):'0'}% of original scope)</span>
+    </div>`;
+  }
+
+  html+='</div>';
+  return html;
+}
+
+function calcProfitRate(cats,profRows){
+  const totalBase=cats.reduce((s,c)=>s+catTot(c.lines),0);
+  if(totalBase===0)return 0;
+  const totalProfit=(profRows||[]).reduce((s,r)=>{const b=cats.filter(c=>c.cat===r.cat).reduce((ss,c)=>ss+catTot(c.lines),0);return s+b*(+(r.pct||0)/100);},0);
+  return totalProfit/totalBase;
+}
+
+// Phase management
+window.togglePhase=id=>{
+  if(!EST)return;EST.phases=EST.phases||[];
+  const ph=EST.phases.find(p=>p.id===id);if(!ph)return;
+  ph.active=!ph.active;schedAS();renderEst();
+};
+
+window.addPhaseManual=()=>{
+  const name=window.prompt?prompt('Phase name:','New Phase'):'';
+  if(!name)return;
+  EST.phases=EST.phases||[];
+  EST.phases.push({id:'ph'+Date.now(),name:name.trim(),active:true});
+  schedAS();renderEst();toast('Phase added');
+};
+
+window.editPhaseName=(btn)=>{
+  const id=btn.dataset.phid;const ph=(EST.phases||[]).find(p=>p.id===id);if(!ph)return;
+  const name=window.prompt?prompt('Rename phase:',ph.name):'';
+  if(!name||!name.trim())return;
+  ph.name=name.trim();schedAS();renderEst();
+};
+
+window.deletePhase=(btn)=>{
+  const id=btn.dataset.phid;
+  showConfirm('Delete this phase? Line items will become unassigned.',(()=>{
+    EST.phases=(EST.phases||[]).filter(p=>p.id!==id);
+    (EST.categories||[]).forEach(cat=>(cat.lines||[]).forEach(ln=>{if(ln.phaseId===id)delete ln.phaseId;}));
+    schedAS();renderEst();toast('Phase deleted');
+  }));
+};
+
+// Phase assignment modal
+window.openPhaseModal=(ci,li)=>{
+  PHASE_PENDING={ci,li};
+  const phases=EST.phases||[];
+  const ln=EST.categories[ci].lines[li];
+  if(!phases.length){toast('No phases yet — add phases first from the Phase Breakdown panel');return;}
+  $('phasePickList').innerHTML=phases.map(ph=>`<div onclick="assignPhase('${ph.id}')" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;border:1px solid ${ln.phaseId===ph.id?'var(--blue)':'var(--bd)'};background:${ln.phaseId===ph.id?'rgba(10,132,255,.1)':'var(--s2)'};cursor:pointer;margin-bottom:6px;transition:all .15s">
+    <span style="font-size:18px">🏗️</span>
+    <span style="font-weight:600;color:${ln.phaseId===ph.id?'var(--blue)':'var(--tx)'}">${esc(ph.name)}</span>
+    ${ln.phaseId===ph.id?'<span style="margin-left:auto;font-size:11px;color:var(--blue)">✓ Current</span>':''}
+  </div>`).join('');
+  if(ln.phaseId){$('phasePickList').innerHTML+=`<button onclick="assignPhase(null)" class="btn btn-xs btn-danger" style="margin-top:6px">Remove phase assignment</button>`;}
+  openModal('ovPhase');
+};
+
+window.assignPhase=(phId)=>{
+  const{ci,li}=PHASE_PENDING;if(ci===null)return;
+  EST.categories[ci].lines[li].phaseId=phId||undefined;
+  closeModal('ovPhase');schedAS();renderEst();
+};
+
+window.createPhaseFromModal=()=>{
+  const name=$('newPhaseName').value.trim();if(!name){toast('Enter a phase name','err');return;}
+  EST.phases=EST.phases||[];
+  const id='ph'+Date.now();EST.phases.push({id,name,active:true});
+  $('newPhaseName').value='';
+  assignPhase(id);
+};
+
 // PDF GENERATION
 window.genPDF=async id=>{if(!hasPerm('exportPDF')){toast('No permission','err');return;}const p=id===EST?.id?EST:PROJS.find(x=>x.id===id);if(!p){toast('Not found','err');return;}const{jsPDF}=window.jspdf;buildPDF(new jsPDF({orientation:'portrait',unit:'pt',format:'letter'}),p,true);setTimeout(()=>buildPDF(new jsPDF({orientation:'portrait',unit:'pt',format:'letter'}),p,false),400);toast('Exporting 2 PDFs…');};
 
@@ -939,6 +1137,39 @@ function buildPDF(doc,p,internal){
     const COST=costTotal(cats,adjs),PROF=profitTotal(cats,profRows),MISC=miscTotal(miscItems),GRAND=COST+PROF+MISC;
     if(profRows.length){y+=6;doc.setFillColor(18,30,18);doc.rect(36,y-10,540,18,'F');doc.setFontSize(8.5);doc.setFont('helvetica','bold');doc.setTextColor(48,209,88);doc.text('PROFIT MARKUP',44,y);y+=13;profRows.forEach(r=>{const b=cats.filter(c=>c.cat===r.cat).reduce((s,c)=>s+catTot(c.lines),0);doc.setFontSize(8);doc.setFont('helvetica','normal');doc.setTextColor(200,200,200);doc.text(r.cat+' — '+r.pct+'% markup',44,y);doc.setTextColor(48,209,88);doc.text(fmt(b*(r.pct/100)),556,y,{align:'right'});y+=12;});}
     if(miscItems.length){y+=6;doc.setFillColor(22,22,14);doc.rect(36,y-10,540,18,'F');doc.setFontSize(8.5);doc.setFont('helvetica','bold');doc.setTextColor(255,214,10);doc.text('MISCELLANEOUS',44,y);y+=13;miscItems.forEach(m=>{doc.setFontSize(8);doc.setFont('helvetica','normal');doc.setTextColor(200,200,200);doc.text(m.desc||'',44,y);doc.setTextColor(255,214,10);doc.text(fmt(m.amount||0),556,y,{align:'right'});y+=12;});}
+    // Phase breakdown in PDF
+    const phArr=p.phases||[];
+    if(phArr.length){
+      y+=10;if(y>670){doc.addPage();doc.setFillColor(9,9,9);doc.rect(0,0,612,792,'F');y=36;}
+      doc.setFillColor(8,18,38);doc.rect(36,y-10,540,18,'F');doc.setFontSize(8.5);doc.setFont('helvetica','bold');doc.setTextColor(10,132,255);doc.text('PHASE BREAKDOWN',44,y);y+=14;
+      doc.setFontSize(7);doc.setFont('helvetica','normal');doc.setTextColor(60,80,100);
+      doc.text('Phase',44,y);doc.text('Cost',340,y,{align:'right'});doc.text('Total w/Profit',450,y,{align:'right'});doc.text('% of Job',556,y,{align:'right'});y+=5;
+      doc.setDrawColor(20,40,70);doc.setLineWidth(0.2);doc.line(36,y,576,y);y+=8;
+      const pr2=calcProfitRate(cats,profRows);
+      phArr.forEach(ph=>{
+        if(y>720){doc.addPage();doc.setFillColor(9,9,9);doc.rect(0,0,612,792,'F');y=36;}
+        let pC=0;cats.forEach(cat=>(cat.lines||[]).forEach(ln=>{if(ln.phaseId===ph.id)pC+=(+(ln.qty||0))*(+(ln.unitPrice||0));}));
+        const tBase=cats.reduce((s,c)=>s+catTot(c.lines),0);const adjT2=COST-tBase;const pAdj=tBase>0?adjT2*(pC/tBase):0;
+        const pCA=pC+pAdj;const pP=pCA*pr2;const pT=pCA+pP;const pPct=GRAND>0?((pT/GRAND)*100).toFixed(1):'0';
+        const isAct=ph.active!==false;
+        doc.setFontSize(8.5);doc.setFont('helvetica',isAct?'bold':'normal');doc.setTextColor(isAct?200:80,isAct?200:80,isAct?200:80);
+        doc.text((isAct?'● ':'○ ')+ph.name,44,y);
+        if(!isAct){doc.setFillColor(50,10,10);doc.rect(500,y-8,55,11,'F');doc.setFontSize(6.5);doc.setFont('helvetica','bold');doc.setTextColor(255,69,58);doc.text('INACTIVE',527,y-1,{align:'center'});doc.setFontSize(8.5);}
+        doc.setFont('helvetica','normal');doc.setTextColor(isAct?201:60,isAct?168:60,isAct?76:20);doc.text(fmt(pCA),340,y,{align:'right'});
+        doc.setTextColor(isAct?48:30,isAct?209:80,isAct?88:30);doc.text(fmt(pT),450,y,{align:'right'});
+        doc.setTextColor(isAct?10:40,isAct?132:40,isAct?255:80);doc.text(pPct+'%',556,y,{align:'right'});
+        y+=13;
+      });
+      // Totals row for active phases
+      const actPh=phArr.filter(ph=>ph.active!==false);
+      let actC=0;actPh.forEach(ph=>{cats.forEach(cat=>(cat.lines||[]).forEach(ln=>{if(ln.phaseId===ph.id)actC+=(+(ln.qty||0))*(+(ln.unitPrice||0));}));});
+      const actT=actC*(1+pr2);
+      doc.setDrawColor(20,40,70);doc.line(36,y,576,y);y+=8;
+      doc.setFontSize(8.5);doc.setFont('helvetica','bold');doc.setTextColor(10,132,255);doc.text(actPh.length+'/'+phArr.length+' phases active',44,y);
+      doc.setTextColor(201,168,76);doc.text(fmt(actC),340,y,{align:'right'});
+      doc.setTextColor(48,209,88);doc.text(fmt(actT),450,y,{align:'right'});
+      doc.setTextColor(10,132,255);doc.text(GRAND>0?((actT/GRAND)*100).toFixed(1)+'%':'—',556,y,{align:'right'});y+=14;
+    }
     y+=10;doc.setFillColor(25,40,25);doc.rect(36,y-12,540,30,'F');doc.setFontSize(10);doc.setFont('helvetica','bold');doc.setTextColor(150,150,150);doc.text('Cost: '+fmt(COST)+'   Profit: '+fmt(PROF)+'   Misc: '+fmt(MISC),44,y+4);
     y+=32;doc.setFillColor(201,168,76);doc.rect(36,y-14,540,32,'F');doc.setFontSize(18);doc.setFont('helvetica','bold');doc.setTextColor(0,0,0);doc.text('GRAND TOTAL',50,y+5);doc.text(fmt(GRAND),556,y+5,{align:'right'});
     addPDFPhotos(doc,p.photos||[],y+36);
